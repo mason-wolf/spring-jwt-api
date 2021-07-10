@@ -16,10 +16,13 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.fitnessapp.service.UserDetailsServiceImpl;
 
 public class JwtTokenFilter extends OncePerRequestFilter{
+
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
+
 	@Autowired
 	private UserDetailsServiceImpl userDetailsService;
+	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {

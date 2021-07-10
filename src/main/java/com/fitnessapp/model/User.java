@@ -16,20 +16,26 @@ import javax.persistence.Table;
 @Entity
 @Table(name="users")
 public class User {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id; 
+
 	@Column(name="name")
 	private String userName; 
+
 	@Column(name="email")
 	private String email;
+
 	@Column(name="password")
 	private String password;
+
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "user_role", 
 			joinColumns = @JoinColumn(name="USER_ID", referencedColumnName="ID"),
 			inverseJoinColumns = @JoinColumn(name="ROLE_ID", referencedColumnName="ID"))
 	private Set<Role> roles = new HashSet<>();
+	
 	public Integer getId() {
 		return id;
 	}

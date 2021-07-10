@@ -20,15 +20,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fitnessapp.dao.RoleRepository;
 import com.fitnessapp.dao.UserRepository;
 import com.fitnessapp.model.AuthResponse;
-import com.fitnessapp.model.CustomUserBean;
+import com.fitnessapp.model.CustomUserDetails;
+import com.fitnessapp.model.NewUser;
 import com.fitnessapp.model.Role;
 import com.fitnessapp.model.Roles;
-import com.fitnessapp.model.SignupRequest;
+import com.fitnessapp.model.newUser;
 import com.fitnessapp.model.User;
 import com.fitnessapp.security.JwtTokenUtil;
 
 @RestController
-@CrossOrigin(origins="http://localhost:4200") 
+//@CrossOrigin(origins="http://localhost:4200") 
 @RequestMapping("/auth")
 public class AuthController {
 	@Autowired
@@ -43,42 +44,53 @@ public class AuthController {
 	JwtTokenUtil jwtTokenUtil;
 	
 	@PostMapping("/login")
-	public ResponseEntity<?> userLogin(@Valid @RequestBody User user) {
-		System.out.println("AuthController -- userLogin");
-		Authentication authentication = authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword()));
+	public ResponseEntity<?> login(@Valid @RequestBody User user) {
+
+		System.out.println("Login attempt");
+
+		// Authenticate the request
+		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword()));
 		
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String token = jwtTokenUtil.generateJwtToken(authentication);
-		CustomUserBean userBean = (CustomUserBean) authentication.getPrincipal();		
-		List<String> roles = userBean.getAuthorities().stream()
+		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+		
+		// Retrieve the roles for this user
+		List<String> roles = userDetails.getAuthorities().stream()
 									 .map(auth -> auth.getAuthority())
 									 .collect(Collectors.toList());
+
 		AuthResponse authResponse = new AuthResponse();
 		authResponse.setToken(token);
 		authResponse.setRoles(roles);
 		return ResponseEntity.ok(authResponse);
 	}
 	
-	@PostMapping("/signup")
-	public ResponseEntity<?> userSignup(@Valid @RequestBody SignupRequest signupRequest) {
-		if(userRepository.existsByUserName(signupRequest.getUserName())){
-			return ResponseEntity.badRequest().body("Username is already taken");
+	@PostMapping("/register")
+	public ResponseEntity<?> register(@Valid @RequestBody NewUser newUser) {
+
+		// Check if user already exists
+		if(userRepository.existsByUserName(newUser.getUserName())){
+			return ResponseEntity.badRequest().body("Username already exists");
 		}
-		if(userRepository.existsByEmail(signupRequest.getEmail())){
-			return ResponseEntity.badRequest().body("Email is already taken");
+
+		// Check if email is already in use
+		if(userRepository.existsByEmail(newUser.getEmail())){
+			return ResponseEntity.badRequest().body("Email already in use");
 		}
+
 		User user = new User();
 		Set<Role> roles = new HashSet<>();
-		user.setUserName(signupRequest.getUserName());
-		user.setEmail(signupRequest.getEmail());
-		user.setPassword(encoder.encode(signupRequest.getPassword()));
-		//System.out.println("Encoded password--- " + user.getPassword());
-		String[] roleArr = signupRequest.getRoles();
+		user.setUserName(newUser.getUserName());
+		user.setEmail(newUser.getEmail());
+		user.setPassword(encoder.encode(newUser.getPassword()));
+
+		String[] roleArr = newUser.getRoles();
 		
 		if(roleArr == null) {
 			roles.add(roleRepository.findByRoleName(Roles.ROLE_USER).get());
 		}
+
 		for(String role: roleArr) {
 			switch(role.toLowerCase()) {
 				case "admin":
@@ -88,11 +100,11 @@ public class AuthController {
 					roles.add(roleRepository.findByRoleName(Roles.ROLE_USER).get());
 					break;	
 				default:
-					return ResponseEntity.badRequest().body("Specified role not found");
+					return ResponseEntity.badRequest().body("Role not found");
 			}
 		}
 		user.setRoles(roles);
 		userRepository.save(user);
-		return ResponseEntity.ok("User signed up successfully");
+		return ResponseEntity.ok("User registered successfully");
 	}
 }

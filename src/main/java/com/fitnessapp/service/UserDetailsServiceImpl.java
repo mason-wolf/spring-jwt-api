@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import com.fitnessapp.dao.UserRepository;
-import com.fitnessapp.model.CustomUserBean;
+import com.fitnessapp.model.CustomUserDetails;
 import com.fitnessapp.model.User;
 
 @Service
@@ -20,6 +20,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		User user = userRepository.findByUserName(username)
 					  			  .orElseThrow(() -> new UsernameNotFoundException("User with "
 					  			  		+ "user name "+ username + " not found"));
-		return CustomUserBean.createInstance(user);
+		return UserDetails.createInstance(user);
 	}
 }

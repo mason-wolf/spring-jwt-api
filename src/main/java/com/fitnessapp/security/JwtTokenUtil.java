@@ -4,7 +4,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-import com.fitnessapp.model.CustomUserBean;
+import com.fitnessapp.model.CustomUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -21,7 +21,7 @@ public class JwtTokenUtil {
 	private long jwtTokenExpiration;
 	
 	public String generateJwtToken(Authentication authentication) {
-		CustomUserBean userPrincipal = (CustomUserBean)authentication.getPrincipal();
+		CustomUserDetails userPrincipal = (CustomUserDetails)authentication.getPrincipal();
 		return Jwts.builder()
 				   .setSubject(userPrincipal.getUsername())
 				   .setIssuedAt(new Date(System.currentTimeMillis()))
