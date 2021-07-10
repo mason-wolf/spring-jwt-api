@@ -1,4 +1,4 @@
-package com.netjstech.model;
+package com.fitnessapp.model;
 
 public enum Roles {
 	ROLE_USER,

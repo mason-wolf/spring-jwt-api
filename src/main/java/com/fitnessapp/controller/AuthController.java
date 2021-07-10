@@ -1,4 +1,4 @@
-package com.netjstech.controller;
+package com.fitnessapp.controller;
 
 import java.util.HashSet;
 import java.util.List;
@@ -17,15 +17,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.netjstech.dao.RoleRepository;
-import com.netjstech.dao.UserRepository;
-import com.netjstech.model.AuthResponse;
-import com.netjstech.model.CustomUserBean;
-import com.netjstech.model.Role;
-import com.netjstech.model.Roles;
-import com.netjstech.model.SignupRequest;
-import com.netjstech.model.User;
-import com.netjstech.security.JwtTokenUtil;
+import com.fitnessapp.dao.RoleRepository;
+import com.fitnessapp.dao.UserRepository;
+import com.fitnessapp.model.AuthResponse;
+import com.fitnessapp.model.CustomUserBean;
+import com.fitnessapp.model.Role;
+import com.fitnessapp.model.Roles;
+import com.fitnessapp.model.SignupRequest;
+import com.fitnessapp.model.User;
+import com.fitnessapp.security.JwtTokenUtil;
 
 @RestController
 @CrossOrigin(origins="http://localhost:4200") 

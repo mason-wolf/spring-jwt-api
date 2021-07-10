@@ -1,10 +1,10 @@
-package com.netjstech.dao;
+package com.fitnessapp.dao;
 
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import com.netjstech.model.Role;
-import com.netjstech.model.Roles;
+import com.fitnessapp.model.Role;
+import com.fitnessapp.model.Roles;
 
 
 @Repository

@@ -1,4 +1,4 @@
-package com.netjstech.model;
+package com.fitnessapp.model;
 
 import java.util.Collection;
 import java.util.List;

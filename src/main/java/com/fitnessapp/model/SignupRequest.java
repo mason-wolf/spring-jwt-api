@@ -1,4 +1,4 @@
-package com.netjstech.model;
+package com.fitnessapp.model;
 
 public class SignupRequest {
 	private String userName; 

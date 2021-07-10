@@ -1,9 +1,9 @@
-package com.netjstech.dao;
+package com.fitnessapp.dao;
 
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import com.netjstech.model.User;
+import com.fitnessapp.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>{

@@ -1,4 +1,4 @@
-package com.netjstech.model;
+package com.fitnessapp.model;
 
 import javax.persistence.Column;
 import javax.persistence.EnumType;

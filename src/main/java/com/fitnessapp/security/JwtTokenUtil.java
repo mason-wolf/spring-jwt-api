@@ -1,10 +1,10 @@
-package com.netjstech.security;
+package com.fitnessapp.security;
 
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-import com.netjstech.model.CustomUserBean;
+import com.fitnessapp.model.CustomUserBean;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;

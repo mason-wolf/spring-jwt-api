@@ -1,4 +1,4 @@
-package com.netjstech.model;
+package com.fitnessapp.model;
 
 import java.util.HashSet;
 import java.util.Set;

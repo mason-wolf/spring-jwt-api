@@ -1,4 +1,4 @@
-package com.netjstech.security;
+package com.fitnessapp.security;
 
 import java.io.IOException;
 import javax.servlet.ServletException;

@@ -1,4 +1,4 @@
-package com.netjstech.service;
+package com.fitnessapp.service;
 
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,9 +6,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import com.netjstech.dao.UserRepository;
-import com.netjstech.model.CustomUserBean;
-import com.netjstech.model.User;
+import com.fitnessapp.dao.UserRepository;
+import com.fitnessapp.model.CustomUserBean;
+import com.fitnessapp.model.User;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
