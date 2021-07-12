@@ -24,12 +24,11 @@ import com.fitnessapp.model.CustomUserDetails;
 import com.fitnessapp.model.NewUser;
 import com.fitnessapp.model.Role;
 import com.fitnessapp.model.Roles;
-import com.fitnessapp.model.newUser;
 import com.fitnessapp.model.User;
 import com.fitnessapp.security.JwtTokenUtil;
 
 @RestController
-//@CrossOrigin(origins="http://localhost:4200") 
+@CrossOrigin(origins="https://e74253c68c4544da8a5b1eeeecdad56f.vfs.cloud9.us-east-2.amazonaws.com:8081") 
 @RequestMapping("/auth")
 public class AuthController {
 	@Autowired
