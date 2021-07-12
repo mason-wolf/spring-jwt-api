@@ -14,11 +14,19 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+
 import com.fitnessapp.service.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+
+
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
 	UserDetailsServiceImpl userDetailsService;
@@ -47,7 +55,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		// We don't need CSRF for this example
-		httpSecurity.cors().and().csrf().disable()
+		httpSecurity.cors()
+            .configurationSource(corsConfigurationSource())
+            .and().csrf().disable()
 					.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint).and()
 					.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 					.authorizeRequests().antMatchers("/auth/**").permitAll()
@@ -56,4 +66,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		httpSecurity.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);					
 	}
+
+	@Bean
+    CorsConfigurationSource corsConfigurationSource() {
+	    CorsConfiguration configuration = new CorsConfiguration();
+	    configuration.setAllowedOrigins(Arrays.asList("*"));
+	    configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH"));
+	    configuration.setAllowCredentials(true);
+	    //the below three lines will add the relevant CORS response headers
+	    configuration.addAllowedOrigin("*");
+	    configuration.addAllowedHeader("*");
+	    configuration.addAllowedMethod("*");
+	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	    source.registerCorsConfiguration("/**", configuration);
+	    return source;
+	}
+	
 }
