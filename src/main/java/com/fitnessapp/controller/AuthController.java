@@ -28,7 +28,7 @@ import com.fitnessapp.model.User;
 import com.fitnessapp.security.JwtTokenUtil;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "http://localhost:4200/")
 @RequestMapping("/auth")
 public class AuthController {
 	@Autowired
