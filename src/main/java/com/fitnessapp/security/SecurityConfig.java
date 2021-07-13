@@ -61,6 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 					.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint).and()
 					.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 					.authorizeRequests().antMatchers("/auth/**").permitAll()
+			//		.antMatchers(HttpMethod.GET, "/login", "/index*", "/static/**", "/*.js", "/*.json", "/*.ico", "/*.sccs","/*.woff2", "/*.css").permitAll()
 					.antMatchers(HttpMethod.GET, "/user/allusers").permitAll()
 					.anyRequest().authenticated();
 		
@@ -69,16 +70,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 	@Bean
     CorsConfigurationSource corsConfigurationSource() {
-	    CorsConfiguration configuration = new CorsConfiguration();
-	    configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
-	    configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH"));
-	    //the below three lines will add the relevant CORS response headers
-	    configuration.addAllowedOrigin("*");
-	    configuration.addAllowedHeader("*");
-	    configuration.addAllowedMethod("*");
-	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-	    source.registerCorsConfiguration("/**", configuration);
-	    return source;
+		CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
+        configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
 	}
 	
 }
