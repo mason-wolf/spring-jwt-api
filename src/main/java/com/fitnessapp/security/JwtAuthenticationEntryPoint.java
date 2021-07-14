@@ -16,8 +16,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 	private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationEntryPoint.class);
 
 	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-		String token = request.getHeader("Authorization");
-		System.out.println("Token ----JwtAuthenticationEntryPoint " + token);
+	//	String token = request.getHeader("Authorization");
 		logger.error("Unauthorized access error : " + authException.getMessage());
 		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized Access");
 	}

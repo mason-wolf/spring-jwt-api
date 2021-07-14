@@ -43,13 +43,14 @@ public class AuthController {
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@Valid @RequestBody User user) {
 
-		System.out.println("Login attempt");
-
+		System.out.println("Attempted login");
+	
 		// Authenticate the request
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword()));
 		
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String token = jwtTokenUtil.generateJwtToken(authentication);
+		System.out.println("Assigned token: " + token);
 		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 		
 		// Retrieve the roles for this user
@@ -60,6 +61,7 @@ public class AuthController {
 		AuthResponse authResponse = new AuthResponse();
 		authResponse.setToken(token);
 		authResponse.setRoles(roles);
+		authResponse.setUserId(userDetails.getId());
 		return ResponseEntity.ok(authResponse);
 	}
 	
@@ -102,6 +104,7 @@ public class AuthController {
 		}
 		user.setRoles(roles);
 		userRepository.save(user);
+
 		return ResponseEntity.ok("User registered successfully");
 	}
 }
