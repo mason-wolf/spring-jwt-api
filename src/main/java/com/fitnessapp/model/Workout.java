@@ -1,6 +1,7 @@
 package com.fitnessapp.model;
 
 
+import java.util.ArrayList;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -33,7 +34,7 @@ public class Workout {
     private String title;
 
     @Transient
-	private Set<Exercise> exercises;
+	private ArrayList<Exercise> exercises;
     
     public Integer getId() {
         return workout_id;
@@ -45,6 +46,10 @@ public class Workout {
 
     public String getDate() {
         return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public void setUserId(Integer userId) {
@@ -63,11 +68,11 @@ public class Workout {
         return title;
     }
 
-    public Set<Exercise> getExercises() {
+    public ArrayList<Exercise> getExercises() {
         return exercises;
     }
 
-    public void setExercises(Set<Exercise> exercises) {
+    public void setExercises(ArrayList<Exercise> exercises) {
         this.exercises = exercises;
     }
 }
