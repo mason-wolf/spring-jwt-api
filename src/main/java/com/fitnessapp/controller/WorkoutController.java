@@ -63,6 +63,11 @@ public class WorkoutController {
         return WorkoutDAO.updateWorkout(workout);
     }
 
+    @DeleteMapping("")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    ResponseEntity<?> deleteWorkout(@Valid @RequestBody Workout workout) {
+        return WorkoutDAO.deleteWorkout(workout);
+    }
 
     @GetMapping("{userId}")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")

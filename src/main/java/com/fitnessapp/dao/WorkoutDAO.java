@@ -41,6 +41,7 @@ public class WorkoutDAO {
                 workouts.add(workout);
             }
 
+            connection.close();
             return workouts;
         }
         catch(SQLException e) {
@@ -97,6 +98,7 @@ public class WorkoutDAO {
                         statement.executeUpdate();
                     }
                 }
+                connection.close();
                 response = ResponseEntity.ok(HttpStatus.OK);
             }
         }
@@ -106,6 +108,40 @@ public class WorkoutDAO {
 
         return response;
     }
+
+    public static ResponseEntity<?> deleteWorkout(Workout workout) {
+
+        ResponseEntity<?> response = ResponseEntity.ok(HttpStatus.PROCESSING);
+
+        try {
+            CustomUserDetails userDetails = (CustomUserDetails)SecurityContextHolder.getContext().
+            getAuthentication().getPrincipal();
+
+            if (workout.getUserId() != userDetails.getId()) {
+                response = ResponseEntity.ok(HttpStatus.UNAUTHORIZED);
+            }
+            else {
+                String query = "DELETE FROM exercises WHERE workout_id=?";
+                Connection connection = DriverManager.getConnection(url, user, password);
+                PreparedStatement statement = connection.prepareStatement(query);
+                statement.setInt(1, workout.getId());
+                statement.executeUpdate();
+
+                query = "DELETE FROM workouts WHERE workout_id=?";
+                statement = connection.prepareStatement(query);
+                statement.setInt(1, workout.getId());
+                statement.executeUpdate();
+                connection.close();
+                response = ResponseEntity.ok(HttpStatus.OK);
+            }
+
+        }
+        catch(Exception e) {
+            System.out.println(e);
+        }
+        return response;
+    }
+
     public static ResponseEntity<?> deleteExercise(Integer exerciseId) {
 
         ResponseEntity<?> response = ResponseEntity.ok(HttpStatus.PROCESSING);
@@ -135,6 +171,8 @@ public class WorkoutDAO {
                     response = ResponseEntity.ok(HttpStatus.OK);
                 }
             }
+
+            connection.close();
         }
         catch(SQLException e){
             System.out.println(e);
@@ -176,6 +214,7 @@ public class WorkoutDAO {
             }
 
             workout.setExercises(exercises);
+            connection.close();
             return workout;
         }
         catch(SQLException e) {
@@ -208,6 +247,8 @@ public class WorkoutDAO {
              //   statement.setInt(5, exercise.getWeight());
                 statement.executeUpdate();
             }
+
+            connection.close();
         }
         catch(SQLException e) {
             System.out.println(e);
