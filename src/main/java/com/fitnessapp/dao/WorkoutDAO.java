@@ -59,7 +59,7 @@ public class WorkoutDAO {
             getAuthentication().getPrincipal();
 
             if (workout.getUserId() != userDetails.getId()) {
-                System.out.println(workout.getUserId());
+                System.out.println(workout.getUserId() + 1);
                 response = ResponseEntity.ok(HttpStatus.UNAUTHORIZED);
             }
             else {
@@ -68,7 +68,6 @@ public class WorkoutDAO {
                 Connection connection = DriverManager.getConnection(url, user, password);
                 PreparedStatement statement = connection.prepareStatement(query);
                 statement.setString(1, workout.getTitle());
-                System.out.println(workout.getDate());
                 statement.setString(2, workout.getDate());
                 statement.setInt(3, workout.getId());
                 statement.setInt(4, userDetails.getId());
@@ -89,7 +88,7 @@ public class WorkoutDAO {
                     else {
                         query = "INSERT INTO exercises (workout_id, name, sets, reps) VALUES (?, ?, ?, ?)";
                         ArrayList<Workout> userWorkouts = getWorkoutsByUserId(workout.getUserId());
-                        int workoutId = userWorkouts.size();         
+                        int workoutId = userWorkouts.get(userWorkouts.size() - 1).getId();        
                         statement = connection.prepareStatement(query);
                         statement.setInt(1, workoutId);
                         statement.setString(2, exercise.getName());
@@ -236,7 +235,9 @@ public class WorkoutDAO {
             query = "INSERT INTO exercises (workout_id, name, sets, reps) VALUES (?, ?, ?, ?)";
 
             ArrayList<Workout> userWorkouts = getWorkoutsByUserId(workout.getUserId());
-            int workoutId = userWorkouts.size();
+
+
+            int workoutId = userWorkouts.get(userWorkouts.size() - 1).getId();
 
             for (Exercise exercise : workout.getExercises()) {
                 statement = connection.prepareStatement(query);
